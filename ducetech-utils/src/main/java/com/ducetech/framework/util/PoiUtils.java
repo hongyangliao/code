@@ -34,20 +34,36 @@ import java.util.*;
  * @Date 17-10-10 上午10:58
  */
 public class PoiUtils {
-
 	private final static Logger logger = LoggerFactory.getLogger(PoiUtils.class);
 
 	/**
-	 * <pre>
-	 *    指定获取某列所有数据
-	 * </pre>
+	 * 指定获取某列所有数据
 	 *
-	 * @return
+	 * @param is             输入流
+	 * @param readFromRowNum 以readFromRowNum作为标题开始读取,即从第readFromRowNum+1列开始读取
+	 * @param specifyColNum  从specifyColNum列开始读取
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合:每行的key=第一行的标题,value=单元格值,统一为字符串,根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelSpecifyColNum
+	 * @Date: 17-10-10 下午5:45
 	 */
 	public static List<Map<String, String>> readExcelSpecifyColNum(InputStream is, Integer readFromRowNum, Integer specifyColNum) {
 		return readExcelSpecifyColNum(is, null, readFromRowNum, specifyColNum);
 	}
 
+	/**
+	 * 读取上传文件文件数据
+	 *
+	 * @param sheetIndex     工作表索引
+	 * @param readFromRowNum 读取的列数
+	 * @param readFromColNum 从readFromColNum列开始读取
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合:每行的key=第一行的标题,value=单元格值,统一为字符串,根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelContent
+	 * @Date: 17-10-10 下午5:51
+	 */
 	public static List<Map<String, String>> readExcelContent(MultipartFile excelFile, Integer sheetIndex, Integer readFromRowNum,
 															 Integer readFromColNum) {
 		return readExcelContent(excelFile, sheetIndex, null, readFromRowNum, readFromColNum);
@@ -61,13 +77,17 @@ public class PoiUtils {
 	 * <pre>
 	 * 读取Excel数据内容
 	 * 约定格式要求：第一行为标题行，之后为数据行
-	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
 	 * </pre>
 	 *
-	 * @param excelFile
-	 * @param sheetName
-	 * @return Map 包含单元格数据内容的Map对象
+	 * @param excelFile 上传的文件
+	 * @param sheetName 工作表名称
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelContent
+	 * @Date: 17-10-11 上午9:27
 	 */
+
 	public static List<Map<String, String>> readExcelContent(MultipartFile excelFile, String sheetName) {
 		return readExcelContent(excelFile, sheetName, 0, 0);
 	}
@@ -76,10 +96,16 @@ public class PoiUtils {
 	 * <pre>
 	 * 读取Excel数据内容
 	 * 约定格式要求：第readFromRowNum行为标题行，之后为数据行
-	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
 	 * </pre>
 	 *
-	 * @return Map 包含单元格数据内容的Map对象
+	 * @param excelFile      上传的文件
+	 * @param sheetName      工作表名称
+	 * @param readFromRowNum 第readFromRowNum行为标题行,即从第readFromRowNum+1列开始读取
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelContent
+	 * @Date: 17-10-11 上午9:30
 	 */
 	public static List<Map<String, String>> readExcelContent(MultipartFile excelFile, String sheetName, Integer readFromRowNum) {
 		return readExcelContent(excelFile, sheetName, readFromRowNum, 0);
@@ -89,10 +115,16 @@ public class PoiUtils {
 	 * <pre>
 	 * 读取Excel数据内容
 	 * 约定格式要求：第readFromRowNum行为标题行，之后为数据行
-	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
 	 * </pre>
 	 *
-	 * @return Map 包含单元格数据内容的Map对象
+	 * @param excelFile      上传的文件
+	 * @param sheetIndex     第sheetIndex个工作表
+	 * @param readFromRowNum 第readFromRowNum行为标题行,,即从第readFromRowNum+1列开始读取
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelContent
+	 * @Date: 17-10-11 上午9:33
 	 */
 	public static List<Map<String, String>> readExcelContent(MultipartFile excelFile, Integer sheetIndex, Integer readFromRowNum) {
 		return readExcelContent(excelFile, sheetIndex, null, readFromRowNum, 0);
@@ -108,7 +140,7 @@ public class PoiUtils {
 	 *
 	 * @param excelFile      表格名称
 	 * @param sheetName      读取工作标签项名称
-	 * @param readFromRowNum 以readFromRowNum作为标题开始读取
+	 * @param readFromRowNum 以readFromRowNum作为标题开始读取,即从第readFromRowNum+1列开始读取
 	 * @param readFromColNum 从readFromColNum列开始读取
 	 * @return Map                       包含单元格数据内容的Map对象
 	 */
@@ -209,7 +241,14 @@ public class PoiUtils {
 	 * 约定格式要求：第一行为标题行，之后为数据行
 	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
 	 *
-	 * @return Map 包含单元格数据内容的Map对象
+	 * @param is        输入流
+	 * @param excelName excel名称,可以随便填,建议填读取的excel名称
+	 * @param sheetName 工作表名称
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
+	 * @throws
+	 * @Title: readExcelContent
+	 * @Date: 17-10-10 下午5:40
 	 */
 	public static List<Map<String, String>> readExcelContent(InputStream is, String excelName, String sheetName) {
 		List<Map<String, String>> rows = Lists.newArrayList();
@@ -277,10 +316,13 @@ public class PoiUtils {
 	}
 
 	/**
-	 * 根据HSSFCell类型设置数据
+	 * 获取HSSFCell的值
 	 *
-	 * @param cell
-	 * @return
+	 * @param cell cell对象
+	 * @return java.lang.String cell对象的值
+	 * @throws
+	 * @Title: getCellFormatValue
+	 * @Date: 17-10-11 上午9:46
 	 */
 	private static String getCellFormatValue(Cell cell) {
 		String cellvalue = null;
@@ -331,9 +373,10 @@ public class PoiUtils {
 	 *
 	 * @param is             输入流
 	 * @param sheetIndex     从sheetIndex个工作簿读取
-	 * @param readFromRowNum 以readFromRowNum作为标题开始读取
-	 * @param specifyColNum  从readFromColNum列开始读取
-	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>> 包含单元格数据内容的Map对象的集合
+	 * @param readFromRowNum 以readFromRowNum作为标题开始读取,即从第readFromRowNum+1列开始读取
+	 * @param specifyColNum  从specifyColNum列开始读取
+	 * @return java.util.List<java.util.Map<java.lang.String,java.lang.String>>
+	 * 返回结构为Map结构的List集合：每行的key=第一行的标题，value=单元格值，统一为字符串，根据需要自行转换数据类型
 	 * @throws
 	 * @Title: readExcelSpecifyColNum
 	 * @Date: 17-10-10 上午11:00
@@ -424,7 +467,8 @@ public class PoiUtils {
 	 *
 	 * @param excelFile  文件
 	 * @param ignoreLine 忽略的行号
-	 * @return java.util.List<java.util.List<java.util.List<java.lang.String>>> 最里面的list的元素是一列单元格中的单元格,中间的list元元素是一列单元格,最外层单元格是一张工作簿数
+	 * @return java.util.List<java.util.List<java.util.List<java.lang.String>>>
+	 * 最里面的list的元素是一列单元格中的单元格,中间的list元元素是一列单元格,最外层单元格是一张工作簿数
 	 * @throws
 	 * @Title: readExcelToList
 	 * @Date: 17-10-10 上午11:08
@@ -492,7 +536,7 @@ public class PoiUtils {
 	 * 根据xls和xlsx不同返回不同的workbook
 	 *
 	 * @param inp 输入流
-	 * @return org.apache.poi.ss.usermodel.Workbook
+	 * @return org.apache.poi.ss.usermodel.Workbook 返回的workbook对象
 	 * @throws
 	 * @Title: createWorkbook
 	 * @Date: 17-10-10 上午11:36

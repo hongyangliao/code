@@ -396,6 +396,61 @@ public class ExtStringUtils {
 
 
 	/**
+	 * 判断字符串是否全部都为小写
+	 *
+	 * @param value 待判断的字符串
+	 * @return
+	 * @autor:chenssy
+	 * @date:2014年8月9日
+	 */
+	public static boolean isAllLowerCase(String value) {
+		if (value == null || "".equals(value)) {
+			return false;
+		}
+		for (int i = 0; i < value.length(); i++) {
+			if (Character.isLowerCase(value.charAt(i)) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 判断字符串是否全部大写
+	 *
+	 * @param value 待判断的字符串
+	 * @return
+	 * @autor:chenssy
+	 * @date:2014年8月9日
+	 */
+	public static boolean isAllUpperCase(String value) {
+		if (value == null || "".equals(value)) {
+			return false;
+		}
+		for (int i = 0; i < value.length(); i++) {
+			if (Character.isUpperCase(value.charAt(i)) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 反转字符串
+	 *
+	 * @param value 待反转的字符串
+	 * @return
+	 * @autor:chenssy
+	 * @date:2014年8月9日
+	 */
+	public static String reverse(String value) {
+		if (value == null) {
+			return null;
+		}
+		return new StringBuffer(value).reverse().toString();
+	}
+
+	/**
 	 * 读取文件内容
 	 *
 	 * @param fileName 文件路径

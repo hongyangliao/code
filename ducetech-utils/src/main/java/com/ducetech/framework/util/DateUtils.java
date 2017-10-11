@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -251,6 +252,70 @@ public class DateUtils {
 	public static String plusOneDay(String date) {
 		DateTime dateTime = new DateTime(parseDefaultDate(date).getTime());
 		return formatDefaultDate(dateTime.plusDays(1).toDate());
+	}
+
+	/**
+	 * 格式化日期
+	 *
+	 * @param date
+	 * @param format
+	 * @return java.lang.String
+	 * @throws
+	 * @Title: formatDate
+	 * @Date: 17-10-11 下午1:07
+	 */
+	public static String formatDate(String date, String format) {
+		if (date == null || "".equals(date)) {
+			return "";
+		}
+		Date dt = null;
+		SimpleDateFormat inFmt = null;
+		SimpleDateFormat outFmt = null;
+		ParsePosition pos = new ParsePosition(0);
+		date = date.replace("-", "").replace(":", "");
+		if ((date == null) || ("".equals(date.trim())))
+			return "";
+		try {
+			if (Long.parseLong(date) == 0L)
+				return "";
+		} catch (Exception nume) {
+			return date;
+		}
+		try {
+			switch (date.trim().length()) {
+				case 14:
+					inFmt = new SimpleDateFormat("yyyyMMddHHmmss");
+					break;
+				case 12:
+					inFmt = new SimpleDateFormat("yyyyMMddHHmm");
+					break;
+				case 10:
+					inFmt = new SimpleDateFormat("yyyyMMddHH");
+					break;
+				case 8:
+					inFmt = new SimpleDateFormat("yyyyMMdd");
+					break;
+				case 6:
+					inFmt = new SimpleDateFormat("yyyyMM");
+					break;
+				case 7:
+				case 9:
+				case 11:
+				case 13:
+				default:
+					return date;
+			}
+			if ((dt = inFmt.parse(date, pos)) == null)
+				return date;
+			if ((format == null) || ("".equals(format.trim()))) {
+				outFmt = new SimpleDateFormat("yyyy年MM月dd日");
+			} else {
+				outFmt = new SimpleDateFormat(format);
+			}
+			return outFmt.format(dt);
+		} catch (Exception ex) {
+		}
+		return date;
 	}
 
 	/**
