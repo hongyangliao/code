@@ -1,5 +1,6 @@
 package com.liao.springboot;
 
+import com.liao.controller.HelloController;
 import com.liao.dao.UserDAO;
 import com.liao.dao.UserMongodbDAO;
 import com.liao.framework.mail.MailService;
@@ -14,8 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
 import java.util.List;
@@ -47,11 +54,11 @@ public class SpringbootApplicationTests {
 
 	@Before
 	public void before() {
-
+		mockMvc = MockMvcBuilders.standaloneSetup(new HelloController()).build();
 	}
 
 	@Test
-	public void contextLoads() {
+	public void contextLoads() throws Exception {
 //		userDAO.save(new User(1L, "小明", "123456", "1453@qq.com"));
 //		List<User> userList = userDAO.findAll();
 //
@@ -88,6 +95,9 @@ public class SpringbootApplicationTests {
 //		for(User _user : removeUserList) {
 //			System.out.println(_user);
 //		}
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/uid").accept(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print()).andReturn();
+
 	}
 }
 
