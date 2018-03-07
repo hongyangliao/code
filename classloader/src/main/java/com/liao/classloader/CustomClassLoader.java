@@ -1,5 +1,7 @@
 package com.liao.classloader;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * 自定义类加载器
  *
@@ -12,4 +14,5 @@ public class CustomClassLoader extends ClassLoader {
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         return super.findClass(name);
     }
+    ConcurrentHashMap
 }
